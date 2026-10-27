@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="page-title">{{ t.h1 }}</h1>
+<p class="page-intro">{{ t.intro }}</p>
+
+{% for h, sub in t.sections %}
+<section class="section card" aria-labelledby="r{{ loop.index }}">
+  <h2 class="section-title" id="r{{ loop.index }}">{{ h }}</h2>
+  <p class="section-sub">{{ sub }}</p>
+  <p class="empty">{{ t.empty }}</p>
+</section>
+{% endfor %}
+
+<div class="section two">
+  <section class="card" aria-labelledby="h-open">
+    <h2 class="section-title" id="h-open" style="margin-bottom:10px">{{ t.open_title }}</h2>
+    <div class="prose">{% for para in t.open %}<p>{{ para }}</p>{% endfor %}</div>
+  </section>
+  <section class="card" aria-labelledby="h-venues">
+    <h2 class="section-title" id="h-venues" style="margin-bottom:10px">{{ t.venues_title }}</h2>
+    <dl class="meta">{% for k, v in t.venues %}<div><dt>{{ k }}</dt><dd>{{ v }}</dd></div>{% endfor %}</dl>
+  </section>
+</div>
+
+<section class="section card" aria-labelledby="h-deliv">
+  <h2 class="section-title" id="h-deliv">{{ t.deliv_title }}</h2>
+  <p class="section-sub">{{ t.deliv_sub }}</p>
+  <ul class="deliv">
+    {% for code, text, st in t.deliverables %}<li><b>{{ code }}</b><span>{{ text }}</span><span class="tag tag-{{ st }}">{{ t.status[st] }}</span></li>{% endfor %}
+  </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="page-title">{{ t.h1 }}</h1>
+<p class="page-intro">{{ t.intro }}</p>
+
+<section class="section card" aria-labelledby="h-jobs">
+  <h2 class="section-title" id="h-jobs">{{ t.jobs_title }}</h2>
+  <p class="section-sub">{{ t.jobs_sub }}</p>
+  <article class="offer">
+    <div class="offer-head"><span class="offer-type">{{ t.fpi.type }}</span><span class="tag tag-{{ t.fpi.tag[1] }}">{{ t.fpi.tag[0] }}</span></div>
+    <h3>{{ t.fpi.title }}</h3>
+    <p>{{ t.fpi.body }}</p>
+    <ul>{% for d in t.fpi.details %}<li>{{ d }}</li>{% endfor %}</ul>
+    {% if email %}<p>{{ t.contact }}: <a href="mailto:{{ email }}">{{ email }}</a></p>{% endif %}
+  </article>
+</section>
+
+<section class="section card" aria-labelledby="h-why">
+  <h2 class="section-title" id="h-why" style="margin-bottom:14px">{{ t.why_title }}</h2>
+  <div class="grid-4">
+    {% for h, p in t.why %}<article class="offer"><h3>{{ h }}</h3><p>{{ p }}</p></article>{% endfor %}
+  </div>
+</section>
+
+<section class="section card" aria-labelledby="h-theses">
+  <h2 class="section-title" id="h-theses">{{ t.theses_title }}</h2>
+  <p class="section-sub">{{ t.theses_sub }}</p>
+  <div class="grid-4">
+    {% for h, p in t.theses %}
+    <article class="offer"><div class="offer-head"><span class="offer-type">TFG · TFM</span><span class="tag tag-{{ t.theses_tag[1] }}">{{ t.theses_tag[0] }}</span></div><h3>{{ h }}</h3><p>{{ p }}</p></article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section card" aria-labelledby="h-collab">
+  <h2 class="section-title" id="h-collab">{{ t.collab_title }}</h2>
+  <p class="section-sub">{{ t.collab_sub }}</p>
+  <div class="grid">
+    {% for h, p, tag in t.collabs %}
+    <article class="offer"><span class="tag tag-{{ tag[1] }}" style="align-self:flex-start">{{ tag[0] }}</span><h3>{{ h }}</h3><p>{{ p }}</p>{% if email %}<a href="mailto:{{ email }}">{{ t.contact }} →</a>{% endif %}</article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

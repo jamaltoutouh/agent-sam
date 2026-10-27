@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="page-title">{{ t.h1 }}</h1>
+<p class="page-intro">{{ t.intro }}</p>
+
+{% for title, sub, tasks in t.wps %}
+<section class="section card" aria-labelledby="wp{{ loop.index }}">
+  <h2 class="section-title" id="wp{{ loop.index }}">{{ title }}</h2>
+  <p class="wp-sub">{{ sub }}</p>
+  <div class="grid">
+    {% for img, h, p in tasks %}
+    <article class="icard"><img src="{{ base }}img/{{ img }}.svg" alt="{{ alt[img] }}" width="400" height="260" loading="lazy"><div class="body"><h3>{{ h }}</h3><p>{{ p }}</p></div></article>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<section class="section card" aria-labelledby="h-support">
+  <h2 class="section-title" id="h-support" style="margin-bottom:14px">{{ t.support_title }}</h2>
+  <div class="grid">
+    {% for h, p in t.support %}<article class="offer"><h3>{{ h }}</h3><p>{{ p }}</p></article>{% endfor %}
+  </div>
+</section>
+{% endblock %}

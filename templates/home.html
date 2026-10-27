@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero" aria-labelledby="h1">
+  <div>
+    <span class="pill">{{ t.pill }}</span>
+    <h1 id="h1">{{ t.h1 }}</h1>
+    <p class="hero-sub">{{ t.sub }}</p>
+    <p>{{ t.p1 }}</p>
+    <p class="muted">{{ t.p2 }}</p>
+    <ul class="tags">{% for tag in t.tags %}<li>{{ tag }}</li>{% endfor %}</ul>
+  </div>
+  <div class="hero-img"><img src="{{ base }}img/hero.svg" alt="{{ t.hero_alt }}" width="720" height="480" fetchpriority="high"></div>
+</section>
+
+<div class="section two">
+  <section class="card" aria-labelledby="h-obj">
+    <h2 class="section-title" id="h-obj">{{ t.obj_title }}</h2>
+    <p class="section-sub">{{ t.obj_sub }}</p>
+    <ol class="obj">
+      {% for b, txt in t.objectives %}<li><span class="n" aria-hidden="true">{{ loop.index }}</span><p><b>{{ b }}</b> {{ txt }}</p></li>{% endfor %}
+    </ol>
+  </section>
+  <section class="card" aria-labelledby="h-snap">
+    <h2 class="section-title" id="h-snap">{{ t.snap_title }}</h2>
+    <dl class="meta" style="margin-top:8px">
+      {% for k, v, alt in t.snap %}<div><dt>{{ k }}</dt><dd>{{ v }}{% if alt %}<span class="alt">{{ alt }}</span>{% endif %}</dd></div>{% endfor %}
+    </dl>
+  </section>
+</div>
+
+<section class="section card" aria-labelledby="h-inst">
+  <h2 class="section-title" id="h-inst">{{ t.inst_title }}</h2>
+  <p class="section-sub">{{ t.inst_sub }}</p>
+  <ul class="logos" style="margin-top:0">
+    {% for k, h, es, en, url in partner_logos %}{% set name = es if c.lang == 'es' else en %}<li><a href="{{ url }}" rel="noopener" title="{{ name }}"><img src="{{ base }}img/partners/{{ k }}.png" alt="{{ name }}" height="{{ h }}" width="{{ (logo_w[k] * h / 128)|round|int }}" style="width:{{ (logo_w[k] * h / 128)|round|int }}px" loading="lazy"></a></li>{% endfor %}
+  </ul>
+  <a class="link-more" href="{{ href('team') }}">{{ t.inst_link }} →</a>
+</section>
+
+<section class="section card" aria-labelledby="h-problem">
+  <h2 class="section-title" id="h-problem">{{ t.problem_title }}</h2>
+  <p class="section-sub" style="font-size:16px;color:var(--text);font-weight:600">{{ t.problem_sub }}</p>
+  <p class="muted" style="max-width:860px;margin-bottom:16px">{{ t.problem_p }}</p>
+  <div class="grid">
+    {% for img, h, p in t.hazards %}
+    <article class="icard"><img src="{{ base }}img/{{ img }}.svg" alt="{{ alt[img] }}" width="400" height="260" loading="lazy"><div class="body"><h3>{{ h }}</h3><p>{{ p }}</p></div></article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section card" aria-labelledby="h-how">
+  <h2 class="section-title" id="h-how">{{ t.how_title }}</h2>
+  <p class="section-sub">{{ t.how_sub }}</p>
+  <div class="grid">
+    {% for img, h, p in t.how %}
+    <article class="icard"><img src="{{ base }}img/{{ img }}.svg" alt="{{ alt[img] }}" width="400" height="260" loading="lazy"><div class="body"><h3>{{ h }}</h3><p>{{ p }}</p></div></article>
+    {% endfor %}
+  </div>
+  <a class="link-more" href="{{ href('work') }}">{{ t.how_link }} →</a>
+</section>
+
+<section class="section card" aria-labelledby="h-cities">
+  <h2 class="section-title" id="h-cities" style="margin-bottom:14px">{{ t.cities_title }}</h2>
+  <div class="grid">
+    {% for img, h, p in t.cities %}
+    <article class="icard city"><img src="{{ base }}img/{{ img }}.svg" alt="{{ alt[img] }}" width="400" height="220" loading="lazy"><div class="body"><h3>{{ h }}</h3><p>{{ p }}</p></div></article>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="section band">
+  <p>{{ t.press_band }}</p>
+  <a class="btn" href="{{ href('press') }}">{{ t.press_cta }}</a>
+</div>
+{% endblock %}

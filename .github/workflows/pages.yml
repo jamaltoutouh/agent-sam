@@ -1,0 +1,48 @@
+# Genera la web y la publica en GitHub Pages en cada cambio de la rama main.
+# La dirección (usuario.github.io/repositorio o el dominio propio) se detecta sola.
+# Requisito previo: Settings → Pages → Source: «GitHub Actions».
+name: Publicar web
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - id: pages
+        uses: actions/configure-pages@v6
+      - name: Instalar dependencias
+        run: |
+          pip install jinja2 pillow playwright
+          python -m playwright install --with-deps chromium
+      - name: Generar la web
+        run: python3 build.py --site-url "${{ steps.pages.outputs.base_url }}" --email "${{ vars.CONTACT_EMAIL || 'jamal@uma.es' }}"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

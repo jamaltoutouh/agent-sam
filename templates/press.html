@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+{% set check = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B6E69" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>' %}
+{% set cross = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C2501E" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>' %}
+<h1 class="page-title">{{ t.h1 }}</h1>
+<p class="page-intro">{{ t.intro }}</p>
+
+<div class="section two">
+  <section class="card" aria-labelledby="h-facts">
+    <h2 class="section-title" id="h-facts">{{ t.facts_title }}</h2>
+    <dl class="meta" style="margin-top:8px">
+      {% for k, v in t.facts %}<div><dt>{{ k }}</dt><dd>{{ v }}</dd></div>{% endfor %}
+    </dl>
+  </section>
+  <section class="card" aria-labelledby="h-faq">
+    <h2 class="section-title" id="h-faq" style="margin-bottom:14px">{{ t.faq_title }}</h2>
+    <div class="faq">{% for q, a in t.faq %}<div><h3>{{ q }}</h3><p>{{ a }}</p></div>{% endfor %}</div>
+  </section>
+</div>
+
+<div class="section grid">
+  <section class="card" aria-labelledby="h-is"><h2 class="section-title" id="h-is" style="margin-bottom:12px">{{ t.is_title }}</h2><ul class="ck">{% for i in t.is %}<li>{{ check }}<span>{{ i }}</span></li>{% endfor %}</ul></section>
+  <section class="card" aria-labelledby="h-isnot"><h2 class="section-title" id="h-isnot" style="margin-bottom:12px">{{ t.isnot_title }}</h2><ul class="ck">{% for i in t.isnot %}<li>{{ cross }}<span>{{ i }}</span></li>{% endfor %}</ul></section>
+</div>
+
+<section class="section card" aria-labelledby="h-ch">
+  <h2 class="section-title" id="h-ch">{{ t.ch_title }}</h2>
+  <p class="section-sub">{{ t.ch_sub }}</p>
+  <ol class="ch">
+    {% for h, risk, app in t.challenges %}<li><h3>{{ loop.index }}. {{ h }}</h3><p class="r"><b>{{ t.risk }}:</b> {{ risk }}</p><p><b>{{ t.approach }}:</b> {{ app }}</p></li>{% endfor %}
+  </ol>
+</section>
+
+<div class="section band">
+  <p>{{ t.contact_title }} · <span style="font-weight:400">{{ t.contact_text }}</span>{% if email %} <a href="mailto:{{ email }}">{{ email }}</a>{% endif %}</p>
+  {% if email %}<a class="btn" href="mailto:{{ email }}">{{ t.write }}</a>{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% macro tile(photo, name, aff, tbh=False) -%}
+<li class="person">
+  {% if photo %}<img class="avatar" src="{{ base }}img/team/{{ photo }}.jpg" alt="{{ name }}" width="96" height="96" loading="lazy">
+  {% else %}<span class="avatar initials{{ ' tbh' if tbh }}" aria-hidden="true">{{ initials(name) if not tbh else '?' }}</span>{% endif %}
+  <span class="name">{{ name }}</span>
+  {% if aff %}<span class="aff">{{ aff }}</span>{% endif %}
+</li>
+{%- endmacro %}
+{% block content %}
+<h1 class="page-title">{{ t.h1 }}</h1>
+<p class="page-intro">{{ t.intro }}</p>
+<ul class="logos" aria-label="{{ t.logos_aria }}">
+  {% for k, h, es, en, url in partner_logos %}{% set name = es if c.lang == 'es' else en %}<li><a href="{{ url }}" rel="noopener" title="{{ name }}"><img src="{{ base }}img/partners/{{ k }}.png" alt="{{ name }}" height="{{ h }}" width="{{ (logo_w[k] * h / 128)|round|int }}" style="width:{{ (logo_w[k] * h / 128)|round|int }}px"></a></li>{% endfor %}
+</ul>
+
+<section class="section card" aria-labelledby="h-pi">
+  <h2 class="section-title" id="h-pi" style="margin-bottom:16px">{{ t.pi_title }}</h2>
+  <div class="pi">
+    <picture><source srcset="{{ base }}img/team/toutouh.webp" type="image/webp"><img src="{{ base }}img/team/toutouh.jpg" alt="{{ t.pi_alt }}" width="400" height="502"></picture>
+    <div><h3>Dr. Jamal Toutouh El Alamin</h3><p class="muted">{{ t.pi_bio }}</p><p style="margin-top:12px"><a class="link-more" style="margin-top:0" href="https://www.jamal.es/" rel="me noopener">{{ t.pi_web }}: www.jamal.es →</a></p></div>
+  </div>
+</section>
+
+<section class="section card" aria-labelledby="h-uma">
+  <h2 class="section-title" id="h-uma">{{ t.groups.uma[0] }}</h2>
+  <p class="section-sub">{{ t.groups.uma[1] }}</p>
+  <ul class="people">
+    {% for photo, name, es, en, g in team if g == 'uma' %}{{ tile(photo, (es if c.lang == 'es' else en) ~ ' ' ~ name, None) }}{% endfor %}
+  </ul>
+</section>
+
+<section class="section card" aria-labelledby="h-intl">
+  <h2 class="section-title" id="h-intl" style="margin-bottom:16px">{{ t.groups.mit[0] }}</h2>
+  <ul class="people people-wide">
+    {% for g in ['mit', 'udelar', 'uncuyo', 'unpa'] %}{% for photo, name, es, en, gg in team if gg == g %}{{ tile(photo, (es if c.lang == 'es' else en) ~ ' ' ~ name, t.groups[g][1].replace(' · ', '<br>')) }}{% endfor %}{% endfor %}
+  </ul>
+</section>
+
+<div class="section two">
+  <section class="card" aria-labelledby="h-social">
+    <h2 class="section-title" id="h-social">{{ t.groups.social[0] }}</h2>
+    <p class="section-sub">{{ t.groups.social[1] }}</p>
+    <ul class="people">
+      {% for photo, name, es, en, g in team if g == 'social' %}{{ tile(photo, (es if c.lang == 'es' else en) ~ ' ' ~ name, None) }}{% endfor %}
+    </ul>
+  </section>
+  <section class="card" aria-labelledby="h-train">
+    <h2 class="section-title" id="h-train" style="margin-bottom:14px">{{ t.training_title }}</h2>
+    <ul class="people">{{ tile(None, t.fpi, t.tbh, True) }}</ul>
+  </section>
+</div>
+
+<section class="section card" aria-labelledby="h-track">
+  <h2 class="section-title" id="h-track" style="margin-bottom:10px">{{ t.track_title }}</h2>
+  <div class="prose">{% for para in t.track %}<p>{{ para }}</p>{% endfor %}</div>
+</section>
+
+<section class="section card" aria-labelledby="h-partners">
+  <h2 class="section-title" id="h-partners">{{ t.partners_title }}</h2>
+  <p class="section-sub">{{ t.partners_sub }}</p>
+  <ul class="chips">{% for p in t.partners %}<li>{{ p }}</li>{% endfor %}</ul>
+  <p class="muted" style="margin-top:16px;font-size:14px">{{ t.infra }}</p>
+</section>
+{% endblock %}
