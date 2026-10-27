@@ -47,7 +47,7 @@ pip install jinja2 pillow playwright
 python3 build.py --site-url https://EL-DOMINIO-REAL --email contacto@uma.es
 ```
 
-Sube el contenido de `dist/` a la raíz del dominio. Después, en Google Search Console, envía `https://DOMINIO/sitemap.xml`.
+Sube el contenido de `dist/` a la raíz del dominio.. Después, en Google Search Console, envía `https://DOMINIO/sitemap.xml`.
 
 `--file-links` genera enlaces del tipo `index.html` en lugar de URLs limpias. Úsalo solo para previsualizar en servicios que no resuelven carpetas.
 
